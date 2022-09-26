@@ -1,0 +1,43 @@
+{
+  "name": "kindle-moment",
+  "version": "1.0.0",
+  "description": "A personalized Apple-Watch-face-like page designed for Kindle White Paper 6.",
+  "main": "index.js",
+  "scripts": {
+    "build:client": "vite build",
+    "dev:client": "vite --host",
+    "preview:client": "vite preview --host",
+    "start": "vite-node src/server/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.7.18",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "@vitejs/plugin-legacy": "^2.2.0",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "less": "^4.1.3",
+    "prettier": "^2.7.1",
+    "terser": "^5.15.0",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.3",
+    "vite-node": "^0.23.4",
+    "vite-tsconfig-paths": "^3.5.0"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "ical-js-parser": "^0.7.0",
+    "rrule": "^2.7.1",
+    "tsdav": "^2.0.3"
+  }
+}

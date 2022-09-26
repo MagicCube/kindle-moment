@@ -1,0 +1,104 @@
+@import '../../styles/variables.less';
+
+.container {
+  position: relative;
+  overflow: hidden;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 80px;
+}
+
+.body {
+  width: 100%;
+}
+
+.hourRow {
+  position: relative;
+  border-top: @border;
+}
+
+.hourLabel {
+  position: absolute;
+  top: -20px;
+  left: -80px;
+  color: @secondary-color;
+  font-size: 26px;
+}
+
+.cursor {
+  position: absolute;
+  z-index: 1;
+  left: 76px;
+  right: 0;
+  top: 12px;
+  height: 3px;
+  background: black;
+
+  span {
+    position: absolute;
+    display: block;
+    width: 12px;
+    height: 12px;
+    top: -4px;
+    border-radius: 8px;
+    background: black;
+  }
+}
+
+.event {
+  position: absolute;
+  overflow: hidden;
+  width: 580px;
+  left: 96px;
+  padding-left: 16px;
+  border-radius: 4px 8px 8px 4px;
+  border: 1px solid white;
+  border-left: 8px solid #444;
+  background: #aaa;
+  line-height: 1;
+
+  .content {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    .subject {
+      font-size: 28px;
+    }
+
+    .time {
+      margin-top: 2px;
+    }
+
+    .subject,
+    .time {
+      display: block;
+      width: 540px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  .subject {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.smaller.event,
+.smallest.event {
+  .time {
+    display: none;
+  }
+}
+
+.smaller.event {
+  font-size: smaller;
+}
+
+.smallest.event {
+  .subject {
+    font-size: 18px;
+  }
+}
