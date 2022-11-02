@@ -30,7 +30,7 @@ export function format2Digits(num: number) {
 
 export function isActivityDay(date: Date) {
   return (
-    ((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(2022, 10, 12).getTime()) /
+    ((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(2022, 9, 26).getTime()) /
       24 /
       60 /
       60 /
