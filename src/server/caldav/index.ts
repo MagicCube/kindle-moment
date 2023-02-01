@@ -60,6 +60,9 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
         };
+        if (event.status === 'CANCELLED') {
+          continue;
+        }
         if (included) {
           if (map.has(event.id)) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
