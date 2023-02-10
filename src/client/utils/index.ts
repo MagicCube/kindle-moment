@@ -8,7 +8,7 @@ export function now() {
 export function normalizeTime(timestamp: number) {
   const date = new Date(timestamp);
   const utc8DiffMinutes = date.getTimezoneOffset() + 8 * 60;
-  date.setMinutes(date.getMinutes() + utc8DiffMinutes);
+  date.setMinutes(date.getMinutes() + utc8DiffMinutes + 2);
   return date;
 }
 
