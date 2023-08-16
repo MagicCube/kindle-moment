@@ -91,6 +91,11 @@ function extractLocation(location: string | undefined) {
           .replace('🎦', '')
           .replace(/\([0-9]+\)/, '')
           .trim();
+      } else if (location.indexOf('Beijing-Dazhongsi No.1(大钟寺1号楼)-') !== -1) {
+        return location
+          .replace('Beijing-Dazhongsi No.1(大钟寺1号楼)-', '')
+          .replace('🎦', '')
+          .replace(/\([0-9]+\)/, '');
       }
     }
   }

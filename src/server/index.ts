@@ -33,11 +33,18 @@ async function update() {
   const today = dayjs().startOf('day');
   // const today = dayjs('2022-09-27');
   try {
+    console.info('Updating events...');
     events = await fetchEvents({
       start: today,
       end: today.add(1, 'day'),
     });
-    fs.writeFileSync('./data/events.json', JSON.stringify(events));
+    if (events.length === 0) {
+      console.info(`No event found.`);
+    } else if (events.length) {
+      events = events.filter((event) => event.startTime >= today.valueOf());
+      console.info(`${events.length} events updated.`);
+      fs.writeFileSync('./data/events.json', JSON.stringify(events));
+    }
   } catch (e) {
     console.error(e);
   }
