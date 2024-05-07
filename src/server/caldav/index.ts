@@ -2,6 +2,7 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import ICalParser from 'ical-js-parser';
 import { rrulestr } from 'rrule';
+import type { DAVObject } from 'tsdav';
 import { createDAVClient } from 'tsdav';
 
 import type { CalendarEvent, CalendarEventStatus } from '@/core';
@@ -17,15 +18,18 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
     defaultAccountType: 'caldav',
   });
 
-  const defaultCalendar = (await client.fetchCalendars())[0];
-
-  const calendarObjects = await client.fetchCalendarObjects({
-    calendar: defaultCalendar,
-    timeRange: {
-      start: params.start.toISOString(),
-      end: params.end.toISOString(),
-    },
-  });
+  const calendars = await client.fetchCalendars();
+  const calendarObjects: DAVObject[] = [];
+  for (const calendar of calendars) {
+    const objs = await client.fetchCalendarObjects({
+      calendar: calendar,
+      timeRange: {
+        start: params.start.toISOString(),
+        end: params.end.toISOString(),
+      },
+    });
+    calendarObjects.push(...objs);
+  }
 
   const map = new Map<string, CalendarEvent>();
   const selectedEvents: CalendarEvent[] = [];
@@ -86,16 +90,23 @@ function extractLocation(location: string | undefined) {
     const locations = location.split(`\\,\\n`);
     for (const location of locations) {
       if (location.indexOf('Nanjing-Nanjingdaxue(南京大学)-') !== -1) {
-        return location
-          .replace('Nanjing-Nanjingdaxue(南京大学)-', '')
-          .replace('🎦', '')
-          .replace(/\([0-9]+\)/, '')
-          .trim();
-      } else if (location.indexOf('Beijing-Dazhongsi No.1(大钟寺1号楼)-') !== -1) {
-        return location
-          .replace('Beijing-Dazhongsi No.1(大钟寺1号楼)-', '')
-          .replace('🎦', '')
-          .replace(/\([0-9]+\)/, '');
+        return (
+          '南京大学' +
+          location
+            .replace('Nanjing-Nanjingdaxue(南京大学)-', '')
+            .replace('🎦', '')
+            .replace(/\([0-9]+\)/, '')
+            .trim()
+        );
+      } else if (location.indexOf('Beijing-Dazhongsi Plaza No.1(大钟寺广场1号楼)-') !== -1) {
+        return (
+          '大钟寺1号楼' +
+          location
+            .replace('Beijing-Dazhongsi Plaza No.1(大钟寺广场1号楼)-', '')
+            .replace('🎦', '')
+            .replace(/\([0-9]+\)/, '')
+            .trim()
+        );
       }
     }
   }

@@ -1,13 +1,8 @@
 import dayjs from 'dayjs';
-import 'dotenv/config';
-import express from 'express';
-import fs from 'fs';
 
-import { fetchEvents } from './caldav';
+import { fetchEvents } from '@/server/caldav';
 
-const app = express();
-app.use(express.static('./dist'));
-app.get('/api/events', async (req, res) => {
+export async function GET() {
   console.info('Updating from caldav.feishu.cn...');
   const today = dayjs().startOf('day');
   try {
@@ -22,18 +17,14 @@ app.get('/api/events', async (req, res) => {
       events = events.filter((event) => event.startTime >= today.valueOf());
       console.info(`${events.length} events updated.`);
     }
-    res.json(events);
+    return new Response(JSON.stringify(events), {
+      headers: {
+        'Cache-Control': 'no-store',
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (e) {
     console.error(e);
-    res.status(500);
+    return new Response(`Internal Server Error: ${e instanceof Error ? e.message : 'Unknown'}`, { status: 500 });
   }
-});
-
-function main() {
-  if (!fs.existsSync('./data')) {
-    fs.mkdirSync('./data');
-  }
-  app.listen(8888);
 }
-
-main();
