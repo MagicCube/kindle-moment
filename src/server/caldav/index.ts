@@ -7,6 +7,8 @@ import { createDAVClient } from 'tsdav';
 
 import type { CalendarEvent, CalendarEventStatus } from '@/core';
 
+const TIME_OFFSET = process.env.TIME_OFFSET ? parseInt(process.env.TIME_OFFSET) : 8;
+
 export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
   const client = await createDAVClient({
     serverUrl: 'https://caldav.feishu.cn',
@@ -59,8 +61,8 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
           id: eventJSON.uid as unknown as string,
           subject: eventJSON.summary ?? 'Untitled',
           location: extractLocation(eventJSON.location),
-          startTime: start.valueOf(),
-          endTime: end.valueOf(),
+          startTime: start.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
+          endTime: end.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
         };
