@@ -43,7 +43,7 @@ export class Application {
     const events = this._eventTable.getEvents();
     for (const event of events) {
       const delta = Date.now() - event.startTime;
-      if (delta >= -3 * 60 * 1000 && delta <= -2 * 60 * 1000) {
+      if (delta >= -4 * 60 * 1000 && delta <= -3 * 60 * 1000) {
         showEventAlert(event);
         break;
       }
