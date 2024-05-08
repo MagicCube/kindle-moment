@@ -14,7 +14,7 @@ export class Application {
   updateInterval = 60 * 1000;
 
   constructor(readonly container: HTMLElement) {
-    if (window.location.port === '5173') {
+    if (window.location.port === '3000') {
       document.title = 'DEV - Kindle Moment';
     }
 
