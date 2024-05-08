@@ -7,8 +7,6 @@ import { createDAVClient } from 'tsdav';
 
 import type { CalendarEvent, CalendarEventStatus } from '@/core';
 
-const TIME_OFFSET = process.env.TIME_OFFSET ? parseInt(process.env.TIME_OFFSET) : 8;
-
 export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
   const client = await createDAVClient({
     serverUrl: 'https://caldav.feishu.cn',
@@ -65,15 +63,6 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
           endTime: end.valueOf(),
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
-          raw: {
-            query: {
-              start: params.start.toISOString(),
-              startTime: start.valueOf(),
-              end: params.end.toISOString(),
-              endTime: end.valueOf(),
-            },
-            ...eventJSON,
-          },
         };
         if (event.status === 'CANCELLED') {
           continue;
