@@ -62,16 +62,21 @@ export class Application {
       this.update();
 
       setInterval(() => {
-        this.update();
+        const t = now();
+        const hours = t.getHours();
+        if ((hours >= 0 && hours <= 7) || hours >= 22) {
+          // In the early morning, sleep for a while.
+          return;
+        } else {
+          this.update();
+        }
       }, 60 * 1000);
     }, firstUpdate * 1000);
   }
 
   private _updateEvents = async () => {
     const events = await this._request<CalendarEvent[]>('api/events');
-    if (events.length > 0) {
-      this._eventTable.setEvents(events);
-    }
+    this._eventTable.setEvents(events);
   };
 
   private _request<T>(path: string): Promise<T> {
