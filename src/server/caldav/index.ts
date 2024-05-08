@@ -65,7 +65,15 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
           endTime: end.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
-          raw: eventJSON,
+          raw: {
+            query: {
+              start: params.start.toISOString(),
+              startTime: start.valueOf(),
+              end: params.end.toISOString(),
+              endTime: end.valueOf(),
+            },
+            ...eventJSON,
+          },
         };
         if (event.status === 'CANCELLED') {
           continue;
