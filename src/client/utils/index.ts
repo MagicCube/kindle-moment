@@ -28,9 +28,14 @@ export function format2Digits(num: number) {
   return num.toString();
 }
 
-export function isActivityDay(date: Date) {
+export function isActivityDay(date: Date | string) {
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
   return (
-    ((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(2024, 3, 24).getTime()) /
+    (Math.abs(
+      new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(2024, 4, 15).getTime()
+    ) /
       24 /
       60 /
       60 /
@@ -39,3 +44,6 @@ export function isActivityDay(date: Date) {
     0
   );
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).isActivityDay = isActivityDay;
