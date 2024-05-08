@@ -56,8 +56,8 @@ export class Application {
     setInterval(this._updateEvents, this.updateInterval);
 
     const t = now();
-    const firstUpdate = 60 - t.getSeconds();
-    console.info(`Will update in ${firstUpdate} seconds.`);
+    const firstUpdate = (60 - t.getSeconds()) * 1000;
+    console.info(`Will update in ${firstUpdate}ms.`);
     setTimeout(() => {
       this.update();
 
@@ -71,7 +71,7 @@ export class Application {
           this.update();
         }
       }, 60 * 1000);
-    }, firstUpdate * 1000);
+    }, firstUpdate);
   }
 
   private _updateEvents = async () => {
