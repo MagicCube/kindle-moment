@@ -1,7 +1,7 @@
 const DAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
-export function now() {
-  const date = normalizeTime(Date.now());
+export function now(offset = 0) {
+  const date = normalizeTime(Date.now() + offset);
   return date;
 }
 
@@ -30,7 +30,7 @@ export function format2Digits(num: number) {
 
 export function isActivityDay(date: Date) {
   return (
-    ((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(2022, 9, 26).getTime()) /
+    ((new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(2024, 3, 24).getTime()) /
       24 /
       60 /
       60 /
