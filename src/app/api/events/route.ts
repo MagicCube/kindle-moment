@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 
 import { fetchEvents } from '@/server/caldav';
 
+process.env.TZ = 'Asia/Shanghai';
+
 export async function GET() {
   console.info('Updating from caldav.feishu.cn...');
   const today = dayjs().startOf('day');

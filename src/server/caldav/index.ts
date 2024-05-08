@@ -61,8 +61,8 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
           id: eventJSON.uid as unknown as string,
           subject: eventJSON.summary ?? 'Untitled',
           location: extractLocation(eventJSON.location),
-          startTime: start.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
-          endTime: end.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
+          startTime: start.valueOf(),
+          endTime: end.valueOf(),
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
           raw: {
