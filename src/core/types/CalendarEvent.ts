@@ -8,4 +8,5 @@ export interface CalendarEvent {
   endTime: number;
   location?: string;
   rrule?: string;
+  raw?: Record<string, unknown>;
 }

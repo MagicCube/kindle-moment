@@ -42,9 +42,7 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
         let start = dayjs(eventJSON.dtstart.value);
         let end = dayjs(eventJSON.dtend.value);
         let included = false;
-        const startTime = start.valueOf() - TIME_OFFSET * 60 * 60 * 1000;
-        const endTime = end.valueOf() - TIME_OFFSET * 60 * 60 * 1000;
-        if (startTime >= params.start.valueOf() && endTime <= params.end.valueOf()) {
+        if (start.valueOf() >= params.start.valueOf() && end.valueOf() <= params.end.valueOf()) {
           included = true;
         } else if (eventJSON.rrule) {
           const rStart = rrulestr(eventJSON.rrule, {
@@ -63,10 +61,11 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
           id: eventJSON.uid as unknown as string,
           subject: eventJSON.summary ?? 'Untitled',
           location: extractLocation(eventJSON.location),
-          startTime: startTime,
-          endTime: endTime,
+          startTime: start.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
+          endTime: end.valueOf() - TIME_OFFSET * 60 * 60 * 1000,
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
+          raw: eventJSON,
         };
         if (event.status === 'CANCELLED') {
           continue;
