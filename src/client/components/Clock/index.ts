@@ -22,7 +22,7 @@ export class Clock {
   }
 
   update() {
-    const t = now();
+    const t = now(60 * 1000);
     const date = formatDate(t);
     const time = formatTime(t);
     if (date !== this._dateText) {
