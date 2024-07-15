@@ -18,7 +18,7 @@ export function formatDate(date: Date) {
 }
 
 export function formatTime(date: Date) {
-  return format2Digits(date.getHours()) + ':' + format2Digits(date.getMinutes());
+  return format2Digits(date.getHours()) + ':' + format2Digits(date.getMinutes() - 1);
 }
 
 export function format2Digits(num: number) {
