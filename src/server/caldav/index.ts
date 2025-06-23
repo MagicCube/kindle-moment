@@ -57,10 +57,11 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
         }
         const event: CalendarEvent = {
           id: eventJSON.uid as unknown as string,
-          subject: eventJSON.summary ?? 'Untitled',
+          subject: simplifySubject(eventJSON.summary),
           location: extractLocation(eventJSON.location),
           startTime: start.valueOf(),
           endTime: end.valueOf(),
+          timeRange: `${start.format('HH:mm')}-${end.format('HH:mm')}`,
           status: eventJSON.status as unknown as CalendarEventStatus,
           rrule: eventJSON.rrule,
         };
@@ -85,28 +86,33 @@ export async function fetchEvents(params: { start: Dayjs; end: Dayjs }) {
   return selectedEvents;
 }
 
+function simplifySubject(subject: string | undefined) {
+  if (subject) {
+    if (subject.startsWith('视频面试：')) {
+      subject = subject.replace('视频面试：', '面试：');
+      if (subject.endsWith('）')) {
+        const index = subject.indexOf('（');
+        if (index !== -1) {
+          subject = subject.slice(0, index);
+        }
+      }
+    }
+    return subject;
+  }
+  return 'Untitled';
+}
+
 function extractLocation(location: string | undefined) {
   if (location) {
     const locations = location.split(`\\,\\n`);
+    const buildingName = 'Shanghai-Caohejing Center Block C(漕河泾中心C座)-';
     for (const location of locations) {
-      if (location.indexOf('Nanjing-Nanjingdaxue(南京大学)-') !== -1) {
-        return (
-          '南京大学' +
-          location
-            .replace('Nanjing-Nanjingdaxue(南京大学)-', '')
-            .replace('🎦', '')
-            .replace(/\([0-9]+\)/, '')
-            .trim()
-        );
-      } else if (location.indexOf('Beijing-Dazhongsi Plaza No.1(大钟寺广场1号楼)-') !== -1) {
-        return (
-          '大钟寺1号楼' +
-          location
-            .replace('Beijing-Dazhongsi Plaza No.1(大钟寺广场1号楼)-', '')
-            .replace('🎦', '')
-            .replace(/\([0-9]+\)/, '')
-            .trim()
-        );
+      if (location.indexOf(buildingName) !== -1) {
+        return location
+          .replace(buildingName, '')
+          .replace('🎦', '')
+          .replace(/\([0-9]+\)/, '')
+          .trim();
       }
     }
   }

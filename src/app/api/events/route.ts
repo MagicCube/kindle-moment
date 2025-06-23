@@ -6,6 +6,8 @@ process.env.TZ = 'Asia/Shanghai';
 
 export async function GET(req: Request) {
   console.info('Updating from caldav.feishu.cn...');
+  const params = new URL(req.url).searchParams;
+  const simple = params.get('simple') === 'true';
   const today = dayjs().startOf('day');
   try {
     console.info('Updating events...');

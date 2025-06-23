@@ -6,6 +6,7 @@ export interface CalendarEvent {
   status: CalendarEventStatus;
   startTime: number;
   endTime: number;
+  timeRange: string;
   location?: string;
   rrule?: string;
 }
